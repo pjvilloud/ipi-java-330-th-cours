@@ -1,0 +1,404 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>IPI - Cours de Java 330 - Thymeleaf</title>
+    
+    <meta name="description" content="" />
+    <meta name="author" content="Pierre-Julien VILLOUD" />
+
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/idea.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    
+</head>
+
+<body class="impress-not-supported">
+
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="my-navbar">
+  <a class="navbar-brand" href="index.html">
+    <img src="img/ipi.jpg" width="30" height="30" alt=""> Cours Java Thymeleaf
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="nav nav-pills mr-auto">
+      
+    </ul>
+    <span class="navbar-text">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a class="btn btn-primary" href="https://github.com/pjvilloud/ipi-java-330-ex" target="_blank"><i class="fa fa-icon fa-gamepad"></i></a>
+            &nbsp;
+            <a class="btn btn-primary" href="mailto:pjvilloud@protonmail.com"><i class="fa fa-icon fa-envelope"></i></a>
+            &nbsp;
+            <a class="btn btn-primary" href="https://github.com/pjvilloud" target="_blank"><i class="fa fa-icon fa-github"></i></a>
+            &nbsp;
+            <a class="btn btn-primary" href="https://linkedin.com/pjvilloud" target="_blank"><i class="fa fa-icon fa-linkedin"></i></a>&nbsp;
+            <a class="btn btn-primary" href="#" id="numSlide">1</a>
+        </div>
+    </span>
+  </div>
+</nav>
+<div class="progress">
+  <div id="progress" class="progress-bar" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="container-fluid" id="impress">
+
+    <div id="accueil" class="step slide" data-rel-x="0" data-y=0>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container text-center">
+            <h1 class="display-3">Bienvenue !</h1>
+            <p class="lead">
+                <h2>Pierre-Julien VILLOUD</h2>
+                <div class="big-top-margin">
+                    <img src="img/pjvilloud.jpg" class="img-bienvenue rounded mx-auto d-block" alt="Pierre-Julien VILLOUD">
+                </div>
+                <div class="big-top-margin">
+                    <h3><i class="fa fa-icon fa-envelope-square"></i>&nbsp;<a href="mailto:pjvilloud@protonmail.com">pjvilloud@protonmail.com</a></h3>
+                    <h3><i class="fa fa-icon fa-github-square"></i>&nbsp;<a href="https://github.com/pjvilloud" target="_blank">https://github.com/pjvilloud</a></h3>
+                    <h3><i class="fa fa-icon fa-linkedin-square"></i>&nbsp;<a href="https://linkedin.com/pjvilloud" target="_blank">https://linkedin.com/pjvilloud</a></h3>
+                    <h3><i class="fa fa-icon fa-globe"></i>&nbsp;<a href="https://pjvilloud.github.io" target="_blank">https://pjvilloud.github.io</a></h3>
+                </div>
+            </p>
+          </div>
+        </div>
+    </div>
+
+    <div id="introduction" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Introduction</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Nous avons vu dans le cours précédent comment générer dynamiquement des pages HTML avec les servlets. Pour l'instant nous avons gérer la partie HTML dans le contrôleur. Afin de mieux coller aux principes du <em>MVC</em>, nous allons voir la technologie Thymeleaf.
+            </div>
+          </div>
+          <div class="container small-font big-top-margin">
+            <img src="img/thymeleaf.png" width="1100">
+          </div>
+          <div class="container-fluid big-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;<strong>Thymeleaf</strong> est un moteur de template Java permettant le développement d'applications web générées côté serveur.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="spring" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Utilisation avec Spring</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;On peut utiliser les contrôleurs de Spring avec les templates Thymeleaf.
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font big-top-margin">
+            <div class="row">
+              <div class="col-6">
+                <code>IndexController.java</code>
+                <pre><code class="java">@Controller
+public class IndexController {
+
+    @GetMapping(value = "/")
+    public String index(final ModelMap model) {
+        model.put("nom", "IPI");
+        return "index";
+    }
+
+}</code></pre>
+              </div> 
+              <div class="col-6">
+                <code>index.html</code>
+                <pre><code class="html">&lt;html lang="en" xmlns:th="http://www.thymeleaf.org"&gt;
+  &lt;head&gt;
+      &lt;title&gt;Thymeleaf&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;h1&gt;Hello &lt;span th:text="${nom}"&gt;&lt;/span&gt; !&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre></div> 
+            </div>
+          </div>
+          <div class="container-fluid big-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;On garde le principe de mapping d'url de Spring, on précise simplement le template Thymeleaf utilisé en retour de la fonction, ici <code>index</code>. Lorsqu'on accède à la page <code>localhost:8080</code> cela affiche <code>Hello IPI !</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="affichage" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Affichage</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Maintenant que nous savons comment passer des objets du contrôleur à la vue, voyons les syntaxes à notre disposition pour manipuler et afficher ces objets côté vue.
+            </div>
+          </div>
+          <div class="container small-font big-top-margin">
+            <ul class="list-group">
+              <li class="list-group-item">Affichage dans une balise HTML</li>
+              <li class="list-group-item">Affichage <em>inline</em></li>
+              <li class="list-group-item">Attributs HTML</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="affichage-html" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Balise HTML</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est possible d'utiliser n'importe quelle balise HTML à laquelle nous ajoutons un attribut <code>th:text</code> ou <code>data-th-text</code>qui sera interprété par Thymeleaf. <br> La valeur est alors interprétée puis injectée à l'intérieur de la balise.
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font">
+            <div class="row">
+              <div class="col-6">
+                <pre><code class="java">@Controller
+public class IndexController {
+
+    @GetMapping(value = "/")
+    public String index(final ModelMap model) {
+        model.put("nom", "IPI");
+        model.put("htmlText", "How are &lt;strong&gt;you&lt;/strong&gt; ?");
+        model.put("otherText", "Have a nice day !");
+        return "index";
+    }
+
+}</code></pre>
+              </div> 
+              <div class="col-6">
+                <pre><code class="html">&lt;html lang="en" <span data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Cet ajout permet aux IDE de ne pas se plaindre lorsqu'on utilise les attributs HTML <code>th:*</code>"data-html="true">xmlns:th="http://www.thymeleaf.org"</span>&gt;
+  &lt;head&gt;
+      &lt;title&gt;Thymeleaf&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;h1&gt;Hello &lt;span th:text="<span data-toggle="popover" data-trigger="hover" data-placement="top" data-content="La notation <code>${x}</code> retourne la variable <em>x</em> préalablement stockée dans le contexte Thymeleaf. D'autres syntaxes seront abordées plus tard. A noter que World ne sera affiché que si la page est affichée statiquement." data-html="true">${nom}"</span>&gt;World&lt;/span&gt; !&lt;/h1&gt;
+  &lt;p <span data-toggle="popover" data-trigger="hover" data-placement="left" data-content="<code>th-utext</code> permet d'éviter d'échapper les caractères HTML et permet donc d'afficher le texte <strong>you</strong> en gras au lieu d'afficher &lt;strong&gt;you&lt;/strong&gt;" data-html="true">th:utext="${htmlText}"</span>&gt;&lt;/p&gt;
+  &lt;p <span data-toggle="popover" data-trigger="hover" data-placement="right" data-content="<code>data-th-*</code> est une alternative à th:* permettant de passer la validation HTML5. Il est recommandé d'utiliser la notation <code>th:*</code> plus concise et qui fonctionne même dans les autres mode de template de Thymeleaf" data-html="true">data-th-text="${otherText}"</span>&gt;&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </div> 
+            </div>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'intérêt de Thymeleaf par rapport à d'autres moteurs de templates est que le fichier reste du simple HTML affichable statiquement dans un navigateur. Cela permet de réduire le temps de passage d'une page en pur HTML à un template Thymeleaf (<em>Natural Templating</em>).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="affichage-inline" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Affichage <em>Inline</em></h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'ajout obligatoire d'une balise supplémentaire pouvant être vue comme un problème (même si l'utilisation de balises comme <code>span</code> permet un affichage neutre), il est possible d'utiliser une notation <em>inline</em> à l'aide de la syntaxe <code>[[...]]</code> équivalente de <code>th:text</code> et <code>[(...)]</code> équivalente de <code>th:utext</code>.
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font">
+            <div class="row">
+              <div class="col-6">
+                <pre><code class="java">@Controller
+public class IndexController {
+
+    @GetMapping(value = "/")
+    public String index(final ModelMap model) {
+        model.put("nom", "IPI");
+        model.put("htmlText", "How are &lt;strong&gt;you&lt;/strong&gt; ?");
+        return "index";
+    }
+
+}</code></pre>
+              </div> 
+              <div class="col-6">
+                <pre><code class="html">&lt;html lang="en" xmlns:th="http://www.thymeleaf.org"&gt;
+  &lt;head&gt;
+      &lt;title&gt;Thymeleaf&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;h1&gt;Hello [[${nom}]] !&lt;/h1&gt;
+  &lt;p&gt;[(${htmlText})]&lt;/p&gt;
+  &lt;p th:inline="none"&gt;[[crochets]] non interprétés!&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </div> 
+            </div>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Cette notation est pratique mais ne permet pas le <em>Natural Templating</em> et complexifie l'affichage statique.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="affichage-attributsHTML" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Attributs HTML</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est également possible d'injecter dans un attribut HTML une valeur interprétée par Thymeleaf.
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font little-top-margin">
+            <div class="row">
+              <div class="col-6">
+                <pre><code class="java">@Controller
+public class IndexController {
+
+    @GetMapping(value = "/")
+    public String index(final ModelMap model) {
+        model.put("message", "Hello");
+        model.put("nom", "IPI");
+        model.put("htmlText", "How are &lt;strong&gt;you&lt;/strong&gt; ?");
+        return "index";
+    }
+
+}</code></pre>
+              </div> 
+              <div class="col-6">
+                <pre><code class="html">&lt;html lang="en" xmlns:th="http://www.thymeleaf.org"&gt;
+  &lt;head&gt;
+      &lt;title&gt;Thymeleaf&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;input value="Hi" th:attr="value=${message}" /&gt;
+  &lt;input value="World" th:value="${nom}" /&gt;
+  &lt;input th:attr="placeholder=${nom},value=${nom}" /&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </div> 
+            </div>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Tous les attributs standards HTML5 ont leur équivalent <code>th:*</code>. On peut également utiliser n'importe quel attribut non standard avec <code>th:*</code>.<br> Utiliser <code>&lt;span th:toto="${nom}"&gt;&lt;/&gt;</code> sera interprété <code>&lt;span toto="IPI"&gt;&lt;/&gt;</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="expressions" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Expressions</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Voyons les différentes syntaxes des expressions standards Thymeleaf qui vont nous permettre de développer des templates aboutis.
+            </div>
+          </div>
+          <div class="container text-left small-font">
+            <ul class="list-group">
+              <li class="list-group-item">Expressions simples et litérales</li>
+              <li class="list-group-item">Opérations</li>
+              <li class="list-group-item">Comparaisons</li>
+              <li class="list-group-item">Conditions</li>
+              <li class="list-group-item">Objets utilitaires</li>
+              <li class="list-group-item">Sélection d'objets</li>
+            </ul>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="iffor" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Conditions et itérations</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+          <div class="container text-left small-font">
+            <ul class="list-group">
+              <li class="list-group-item">Conditions</li>
+              <li class="list-group-item">Itérations</li>
+            </ul>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fragments" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Les fragments</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+          <div class="container text-left small-font">
+            <ul class="list-group">
+              <li class="list-group-item">Inclusion</li>
+              <li class="list-group-item">Fragments paramétrés</li>
+              <li class="list-group-item"><em>Flexible layouts</em></li>
+              <li class="list-group-item">Suppression</li>
+              <li class="list-group-item">Héritage</li>
+            </ul>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+</div>
+
+
+<script src="js/impress.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/highlight.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/script.js"></script>
+
