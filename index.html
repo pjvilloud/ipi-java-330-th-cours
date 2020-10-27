@@ -486,7 +486,7 @@ public class IndexController {
                 <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est possible d'effectuer des opérations arithmétiques à l'intérieur d'une expression (<code>+, -, *, /, %</code>), effectuer des comparaisons ou afficher une valeur de manière conditionnelle.
             </div>
           </div>
-          <div class="container-fluid text-left small-font little-top-margin">
+          <div class="container-fluid text-left small-font big-top-margin">
             <div class="row">
               <div class="col-4">
                 <pre><code class="java">@Controller
@@ -507,12 +507,12 @@ public class IndexController {
 &lt;span th:text=&quot;${montant} &amp;lt; 150&quot;&gt;true&lt;/span&gt;
 &lt;span th:text=&quot;${tva} == null ? 'HT'&quot;&gt;HT&lt;/span&gt;
 &lt;span th:text=&quot;${tva} == 20 ? 'TTC' : 'HT'&quot;&gt;TTC&lt;/span&gt;
-&lt;span th:text=&quot;${montant} ?: 'Montant non renseigné'&quot;&gt;Montant non renseigné&lt;/span&gt;</code></pre>
+&lt;span th:text=&quot;${montant} ?: 'Montant non renseigné'&quot;&gt;Montant non renseigné&lt;/span&gt;
 &lt;span th:text=&quot;${montant} ?: _&quot;&gt;Montant non renseigné&lt;/span&gt;</code></pre>
               </div>
             </div>
           </div>
-          <div class="container-fluid little-top-margin">
+          <div class="container-fluid big-top-margin">
             <div class="alert alert-primary small-font " role="alert">
                 <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'ensemble des opérations sont décrites dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#arithmetic-operations" target="_blank">Thymeleaf</a>, les comparaisons et conditions sont décrites dans les sections suivantes.
             </div>
@@ -527,18 +527,18 @@ public class IndexController {
           <h1 class="display-3">Conditions et itérations</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est possible d'afficher un fragment HTML en fonction d'une condition ou de le répéter plusieurs fois. 
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container small-font big-top-margin">
             <ul class="list-group">
               <li class="list-group-item">Conditions</li>
               <li class="list-group-item">Itérations</li>
             </ul>
           </div>
-          <div class="container-fluid little-top-margin">
+          <div class="container-fluid big-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Voyons comment utiliser ces éléments avec Thymeleaf
             </div>
           </div>
         </div>
@@ -551,14 +551,45 @@ public class IndexController {
           <h1 class="display-3">Conditions</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est souvent nécessaire d'afficher des éléments HTML seulement lorsqu'une condition est satisfaite, ou de faire varier l'affichage en fonction des cas. Thymeleaf propose les attributs <code>th:if</code>, <code>th:unless</code> et <code>th:switch</code>.
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container-fluid text-left small-font">
+            <div class="row">
+              <div class="col-5">
+                <pre><code class="java">@Controller
+public class IndexController {
+  @GetMapping(value = "/")
+  public String index(final ModelMap m) {
+    m.put("idProduit", 4);
+    m.put("typeProduit", "book");
+    m.put("items", Arrays.asList("Item 1", "Item 2"));
+    return "index";
+  }
+}</code></pre>
+              </div> 
+              <div class="col-7">
+                <pre><code class="html">&lt;a href=&quot;/saveExisting&quot; th:if=&quot;${idProduit} != null&quot;&gt;Enregistrer&lt;/a&gt;
+&lt;a href=&quot;/saveNew&quot; th:unless=&quot;${idProduit}&quot;&gt;Cr&eacute;er&lt;/a&gt;
+&lt;a href=&quot;/details&quot; th:if=&quot;${not #lists.isEmpty(items)}&quot;&gt;Voir le d&eacute;tail&lt;/a&gt;
+
+&lt;div th:switch=&quot;${typeProduit}&quot;&gt;
+  &lt;span th:case=&quot;book&quot;&gt;Livre&lt;/span&gt;
+  &lt;span th:case=&quot;dvd&quot;&gt;DVD&lt;/span&gt;
+  &lt;span th:case=&quot;*&quot;&gt;Autre&lt;/span&gt;
+&lt;/div&gt;
+&lt;!-- Produira l&#039;affichage suivant --&gt;
+&lt;a href=&quot;/saveExisting&quot;&gt;Enregistrer&lt;/a&gt;
+&lt;a href=&quot;/details&quot;&gt;Voir le d&eacute;tail&lt;/a&gt;
+&lt;div&gt;
+  &lt;span&gt;Livre&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+              </div>
+            </div>
           </div>
           <div class="container-fluid little-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;A noter qu'il n'y a pas de notion de <code>else</code> au niveau du <code>th:if</code>.
             </div>
           </div>
         </div>
@@ -571,14 +602,47 @@ public class IndexController {
           <h1 class="display-3">Itérations</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Voyons comment répéter plusieurs fois un fragment HTML grâce à <code>th:each</code>
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container-fluid text-left small-font">
+            <div class="row">
+              <div class="col-6">
+                <pre><code class="java">@Controller
+public class IndexController {
+  @GetMapping(value = "/")
+  public String index(final ModelMap m) {
+    String[] typesProduits = new String[{"DVD", "Livre", "Autre"}];
+    m.put("typesProduit", "book");
+    m.put("items", Arrays.asList("Item 1", "Item 2", "Item 3"));
+    return "index";
+  }
+}</code></pre>
+              </div> 
+              <div class="col-6">
+                <pre><code class="html">&lt;ul th:each=&quot;item : ${items}&quot;&gt;
+  &lt;li th:text=&quot;item&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div th:each=&quot;typeP : ${typesProduit}&quot;&gt;
+  &lt;a th:href=&quot;@{/typesProduits(type=${typeP})&quot;&gt;${typeP}&lt;/a&gt;
+&lt;/div&gt;
+&lt;!-- Produira l&#039;affichage suivant --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;li&gt;Item 3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div&gt;
+  &lt;a href=&quot;/typesProduits?type=DVD&quot;&gt;DVD&lt;/a&gt;
+  &lt;a href=&quot;/typesProduits?type=Livre&quot;&gt;Livre&lt;/a&gt;
+  &lt;a href=&quot;/typesProduits?type=Autre&quot;&gt;Autre&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+              </div>
+            </div>
           </div>
-          <div class="container-fluid little-top-margin">
+          <div class="container-fluid">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;<code>th:each</code> fonctionne avec les <code>java.util.List</code> mais également n'importe quel objet implémentant <code>java.util.Iterable</code>, <code>java.util.Enumeration</code> ou <code>java.util.Map</code>, les tableaux primitifs.
             </div>
           </div>
         </div>
