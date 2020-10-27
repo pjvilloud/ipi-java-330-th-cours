@@ -313,25 +313,208 @@ public class IndexController {
     <div id="expressions" class="step slide">
       <div class="jumbotron jumbotron-fluid">
         <div class="container-fluid text-center">
-          <h1 class="display-3">Expressions</h1>
+          <h1 class="display-3">Expressions et objets</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Voyons les différentes syntaxes des expressions standards Thymeleaf qui vont nous permettre de développer des templates aboutis.
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Voyons les différentes syntaxes des expressions standards Thymeleaf qui vont nous permettre de développer des templates aboutis, ainsi que les différents objets à notre disposition à l'intérieur des templates.
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container small-font">
             <ul class="list-group">
+              <li class="list-group-item">Objets <code>Web Context</code></li>
+              <li class="list-group-item">Objets <em>utilitaires</em></li>
               <li class="list-group-item">Expressions simples et litérales</li>
-              <li class="list-group-item">Opérations</li>
-              <li class="list-group-item">Comparaisons</li>
-              <li class="list-group-item">Conditions</li>
-              <li class="list-group-item">Objets utilitaires</li>
-              <li class="list-group-item">Sélection d'objets</li>
+              <li class="list-group-item">Opérations, comparaisons et conditions</li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="expressions-objetsweb" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Objets <code>Web context</code></h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est possible d'accéder aux objets de contexte web <code>HttpServletRequest</code>, la <code>HttpSession</code> et la <code>ServletContext</code> respectivement par <code>#request</code>, <code>#session</code> et <code>#servletContext</code>. Les objets <code>param</code>, <code>session</code> et <code>application</code> sont des raccourcis permettant d'accéder aux attributs ou paramètres.
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font little-top-margin">
+            <div class="row">
+              <div class="col-6">
+                <pre><code class="java">@Controller
+public class IndexController {
+
+  @Autowired
+  ServletContext context;
+
+  @GetMapping(value = "/say")
+  public String index(final ModelMap m, 
+    HttpSession s, HttpServletRequest r) {
+    m.put("foo", "Hello");
+    s.setAttribute("bar", "World");
+    context.setAttribute("foobar", "IPI");
+    //ou
+    r.getServletContext().setAttribute("foobar", "IPI");
+    return "index";
+  }
+}</code></pre>
+              </div> 
+              <div class="col-6">
+                <code class="no-margin">localhost:8080/say?msg=Hey</code>
+                <pre><code class="html">&lt;span th:text=&quot;${#request.getAttribute(&#039;foo&#039;)}&quot;&gt;Hello&lt;/span&gt;
+
+&lt;span th:text=&quot;${#request.getParameter(&#039;msg&#039;)}&quot;&gt;Hey&lt;/span&gt;
+&lt;span th:text=&quot;${param.msg}&quot;&gt;Hey&lt;/span&gt;
+&lt;span th:text=&quot;${param.msg[0]}&quot;&gt;Hey&lt;/span&gt;
+
+&lt;span th:text=&quot;${#request.getRequestURI()}&quot;&gt;say&lt;/span&gt;
+
+&lt;span th:text=&quot;${#session.getAttribute(&#039;bar&#039;)}&quot;&gt;World&lt;/span&gt;
+&lt;span th:text=&quot;${session.bar}&quot;&gt;World&lt;/span&gt;
+&lt;span th:text=&quot;${#session.id}&quot;&gt;BA7CD710FE9610F1CEF5174DFB3C04AE&lt;/span&gt;
+
+&lt;span th:text=&quot;${#servletContext.getAttribute(&#039;foobar&#039;)}&quot;&gt;IPI&lt;/span&gt;
+&lt;span th:text=&quot;${application.foobar}&quot;&gt;IPI&lt;/span&gt;
+&lt;span th:text=&quot;${#servletContext.getServerInfo()}&quot;&gt;Tomcat/9.0.36&lt;/span&gt;
+
+</code></pre>
+              </div> 
+            </div>
           </div>
           <div class="container-fluid little-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il existe aussi <code>#ctx</code>, <code>#vars</code>, <code>#locale</code>, <code>#response</code>... L'ensemble des objets disponibles sont décrits dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-a-expression-basic-objects" target="_blank">Thymeleaf</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="expressions-objetsutil" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Objets <em>utilitaires</em></h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;D'autres objets sont disponibles permettant d'effectuer divers traitements. Notamment <code>#messages</code>, <code>#temporals</code>, <code>#strings</code>, <code>#numbers</code> ou <code>#lists</code>
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font little-top-margin">
+            <div class="row">
+              <div class="col-4">
+                <pre><code class="properties">#application.properties
+message.hello=Hello
+message.hello2=Hi</code></pre>
+                <pre><code class="java">@Controller
+public class IndexController {
+  @GetMapping(value = "/say")
+  public String index(final ModelMap m) {
+    m.put("now", LocalDate.now());
+    m.put("codePostal", 7600);
+    m.put("prix", 1500);
+    m.put("reduction", 0.1012);
+    m.put("liste", Arrays.asList(5,3,9,6));
+    return "index";
+  }
+}</code></pre>
+              </div> 
+              <div class="col-8">
+                <code class="no-margin">localhost:8080/say?name=World</code>
+                <pre><code class="html">&lt;span th:text=&quot;${messages.msg('message.hello')}&quot;&gt;Hello&lt;/span&gt;
+&lt;span th:text=&quot;${messages.msg('message.hello2', param.name)}&quot;&gt;Hello&lt;/span&gt;
+
+&lt;span th:text=&quot;${#temporals.format(now, 'dd/MM/YYYY')}&quot;&gt;<span id="nowFormatted"></span>&lt;/span&gt;
+
+&lt;span th:text=&quot;${#strings.defaultString(notDefined,"Non renseigné")}&quot;&gt;Non renseigné&lt;/span&gt;
+&lt;span th:text=&quot;${#strings.containsIgnoreCase(param.name,'or')}&quot;&gt;true&lt;/span&gt;
+&lt;span th:text=&quot;${#strings.toUpperCase(param.name)}&quot;&gt;WORLD&lt;/span&gt;
+
+&lt;span th:text=&quot;${#numbers.formatInteger(codePostal,5)}&quot;&gt;07600&lt;/span&gt;
+&lt;span th:utext=&quot;${#numbers.formatCurrency(prix)}&quot;&gt;1 500,00 €&lt;/span&gt;
+&lt;span th:utext=&quot;${#numbers.formatPercent(reduction, 1, 0)}&quot;&gt;10 %&lt;/span&gt;
+
+&lt;span th:utext=&quot;${#lists.size(liste)}&quot;&gt;4&lt;/span&gt;
+&lt;span th:utext=&quot;${#lists.sort(liste)}&quot;&gt;[3, 5, 6, 9]&lt;/span&gt;
+</code></pre>
+              </div> 
+            </div>
+          </div>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il existe aussi <code>#calendars</code>, <code>#objects</code>, <code>#bools</code>, <code>#arrays</code>... L'ensemble des objets disponibles sont décrits dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-a-expression-basic-objects" target="_blank">Thymeleaf</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="expressions-simplesliterales" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Expressions simples et litérales</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est possible d'utiliser du texte, des nombres, des booléens ou encore <code>null</code> dans les expressions Thymeleaf.
+            </div>
+          </div>
+          <div class="container text-left small-font big-top-margin">
+            <code class="no-margin">localhost:8080/say?name=World</code>
+            <pre><code class="html">&lt;span th:text=&quot;'Hello ' + ${param.name}&quot;&gt;Hello World&lt;/span&gt;
+              &lt;span th:text=&quot;|Hello ${param.name}|&quot;&gt;Hello World&lt;/span&gt;
+&lt;span th:text=&quot;25 * 2&quot;&gt;50&lt;/span&gt;
+&lt;span th:text=&quot;false == true&quot;&gt;false&lt;/span&gt;
+&lt;span th:text=&quot;${param.message} == null&quot;&gt;true&lt;/span&gt;</code></pre>
+          </div>
+          <div class="container-fluid big-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'ensemble des expressions litérales sont décrit dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#literals" target="_blank">Thymeleaf</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="expressions-operations" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Opérations, comparaisons et conditions</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il est possible d'effectuer des opérations arithmétiques à l'intérieur d'une expression (<code>+, -, *, /, %</code>), effectuer des comparaisons ou afficher une valeur de manière conditionnelle.
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font little-top-margin">
+            <div class="row">
+              <div class="col-4">
+                <pre><code class="java">@Controller
+public class IndexController {
+  @GetMapping(value = "/")
+  public String index(final ModelMap m) {
+    m.put("montant", 100.0);
+    m.put("tva", 20);
+    return "index";
+  }
+}</code></pre>
+              </div> 
+              <div class="col-8">
+                <pre><code class="html">&lt;span th:text=&quot;${montant} * (100 + ${tva}) / 100&quot;&gt;120&lt;/span&gt;
+&lt;span th:text=&quot;${montant} % 3&quot;&gt;1&lt;/span&gt;
+&lt;span th:text=&quot;${montant} - 10&quot;&gt;90&lt;/span&gt;
+&lt;span th:text=&quot;${tva} &amp;gt; 10&quot;&gt;true&lt;/span&gt;
+&lt;span th:text=&quot;${montant} &amp;lt; 150&quot;&gt;true&lt;/span&gt;
+&lt;span th:text=&quot;${tva} == null ? 'HT'&quot;&gt;HT&lt;/span&gt;
+&lt;span th:text=&quot;${tva} == 20 ? 'TTC' : 'HT'&quot;&gt;TTC&lt;/span&gt;
+&lt;span th:text=&quot;${montant} ?: 'Montant non renseigné'&quot;&gt;Montant non renseigné&lt;/span&gt;</code></pre>
+&lt;span th:text=&quot;${montant} ?: _&quot;&gt;Montant non renseigné&lt;/span&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'ensemble des opérations sont décrites dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#arithmetic-operations" target="_blank">Thymeleaf</a>, les comparaisons et conditions sont décrites dans les sections suivantes.
             </div>
           </div>
         </div>
@@ -352,6 +535,46 @@ public class IndexController {
               <li class="list-group-item">Conditions</li>
               <li class="list-group-item">Itérations</li>
             </ul>
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="iffor-if" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Conditions</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+          <div class="container text-left small-font">
+          </div>
+          <div class="container-fluid little-top-margin">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="iffor-for" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Itérations</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+            </div>
+          </div>
+          <div class="container text-left small-font">
           </div>
           <div class="container-fluid little-top-margin">
             <div class="alert alert-primary small-font " role="alert">
