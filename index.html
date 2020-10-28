@@ -296,6 +296,10 @@ public class IndexController {
   &lt;input value="Hi" th:attr="value=${message}" /&gt;
   &lt;input value="World" th:value="${nom}" /&gt;
   &lt;input th:attr="placeholder=${nom},value=${nom}" /&gt;
+  &lt;a th:href="@{/sayHello(nom=${nom})}">Lien 1&lt;/a&gt;
+  &lt;!-- g&eacute;n&eacute;rera le lien vers /sayHello?nom=IPI--&gt;
+  &lt;a th:href="@{/sayHello2/{message}}">Lien 2&lt;/a&gt;
+  &lt;!-- g&eacute;n&eacute;rera le lien vers /sayHello2/Hello--&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
               </div> 
@@ -303,7 +307,7 @@ public class IndexController {
           </div>
           <div class="container-fluid little-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Tous les attributs standards HTML5 ont leur équivalent <code>th:*</code>. On peut également utiliser n'importe quel attribut non standard avec <code>th:*</code>.<br> Utiliser <code>&lt;span th:toto="${nom}"&gt;&lt;/&gt;</code> sera interprété <code>&lt;span toto="IPI"&gt;&lt;/&gt;</code>
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Tous les attributs standards HTML5 ont leur équivalent <code>th:*</code>. On peut également utiliser n'importe quel attribut non standard avec <code>th:*</code>.<br> Utiliser <code>&lt;span th:toto="${nom}"&gt;&lt;/&gt;</code> sera interprété <code>&lt;span toto="IPI"&gt;&lt;/&gt;</code>. Noter l'utilisation de <code>@{}</code> pour la gestion des URLs.
             </div>
           </div>
         </div>
@@ -655,18 +659,19 @@ public class IndexController {
           <h1 class="display-3">Les fragments</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Lorsque l'on souhaite réutiliser des portions d'HTML dans une application (pour définir un menu, un footer par exemple), il est possible avec Thymeleaf, de définir puis d'inclure des <em>fragments</em> d'HTML dans un template.
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container small-font big-top-margin">
             <ul class="list-group">
               <li class="list-group-item">Inclusion</li>
               <li class="list-group-item">Fragments paramétrés</li>
+              <li class="list-group-item">Autrse fonctionnalités</li>
             </ul>
           </div>
-          <div class="container-fluid little-top-margin">
+          <div class="container-fluid big-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Voyons comment définir et inclure ces fragments, et comment il est possible de les paramétrer pour les rendre plus dynamiques.
             </div>
           </div>
         </div>
@@ -679,14 +684,61 @@ public class IndexController {
           <h1 class="display-3">Inclusion de fragments</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Pour définir un fragment, il suffit de créer un template HTML, puis de définir une ou plusieurs balises en utilisant l'attribut Thymeleaf <code>th:fragment</code>. On peut alors inclure le fragment dans un template en utilisant l'attribut <code>th:insert</code> ou <code>th:replace</code>.
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container-fluid text-left small-font negative-top-margin">
+            <div class="row">
+              <div class="col-6">
+                <pre>
+                  <code class="html">&lt;!-- Template common.html --&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;nav-div&quot; th:fragment=&quot;menu&quot;&gt;
+      &lt;ul class=&quot;nav&quot;&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link&quot; href=&quot;#&quot;&gt;Accueil&lt;/a&gt;
+        &lt;/li&gt;
+        ...
+      &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div th:fragment=&quot;tab&quot;&gt;...&lt;/div&gt;
+    &lt;div class=&quot;footer&quot; th:fragment=&quot;footer&quot;&gt;
+      &amp;copy; Copyright 2020 Tous droits r&eacute;serv&eacute;s
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code>
+                </pre>
+              </div>
+              <div class="col-6">
+                <pre>
+                  <code class="html">&lt;!-- Autre template --&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;<span data-toggle="popover" data-trigger="hover" data-placement="left" data-title="th:insert" data-html="true" data-content="Insert le fragment à l'intérieur du tag sur lequel l'attribut <code>th-insert</code> a été défini.">th:insert</span>=&quot;<span data-toggle="popover" data-trigger="hover" data-title="" data-placement="top" data-title="Nom du template" data-html="true" data-content="Nom complet avec le chemin relatif à la racine des templates (dossier <code>src/main/resources/templates</code> avec Spring Boot">common</span> :: <span data-toggle="popover" data-trigger="hover" data-placement="right" data-title="Sélecteur" data-content="Cela peut être soit le nom du fragment, soit un sélecteur de syntaxe analogue à un sélecteur CSS : <code>#identififant</code> ou <code>.ma-classe</code> par exemple" data-html="true">menu</span>"&gt;&lt;/div&gt;
+    ...
+    &lt;div class="container" <span data-toggle="popover" data-trigger="hover" data-placement="bottom" data-title="th:replace" data-html="true" data-content="Insert le fragment en remplaçant le tag sur lequel l'attribut <code>th-insert</code> a été défini par le contenu du fragment.">th:replace</span>=&quot;common :: footer&quot;&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+&lt;!-- Donnera --&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;nav-div&quot;&gt;
+      &lt;ul class=&quot;nav&quot;&gt;...&lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  ...
+  &lt;div class=&quot;footer&quot;&gt;&amp;copy; Copyright 2020 Tous droits r&eacute;serv&eacute;s&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code>
+                </pre>
+              </div>
+            </div>
           </div>
-          <div class="container-fluid little-top-margin">
+          <div class="container-fluid negative-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il existe aussi <code>th:include</code> qui est déprécié depuis la version 3.0 de Thymleaf.
             </div>
           </div>
         </div>
@@ -699,21 +751,92 @@ public class IndexController {
           <h1 class="display-3">Fragments paramétrés</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Lorsque l'on souhaite rendre dynamique le contenu d'un fragment, on peut définir des paramètres sur le fragment.
             </div>
           </div>
-          <div class="container text-left small-font">
+          <div class="container-fluid text-left small-font negative-top-margin">
+            <div class="row">
+              <div class="col-6">
+                <pre>
+                  <code class="html">&lt;!-- Template common.html --&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;body&gt;
+  &lt;div th:fragment=&quot;menu<span data-toggle="popover" data-trigger="hover" data-placement="right" data-title="Paramètres" data-content="On définit ici deux paramètres <code>title</code> et <code>elements</code> auxquels on fait référence dans la suite du fragment. Il faudra renseigner des valeurs à ces paramètres lors de l'insertion du fragment." data-html="true">(title, elements)</span>&quot;&gt;
+    &lt;h3 th:text=&quot;${title}&quot;&gt;&lt;/h3&gt;
+    &lt;ul th:each="elem : ${elements}" class=&quot;nav&quot;&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;${elem}&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><pre class="negative-top-margin">
+              <code class="java">@Controller
+public class IndexController {
+  @GetMapping(value = "/")
+  public String index(final ModelMap m) {
+    m.put("listElem", Arrays.asList("Accueil", "A propos"));
+    return "index";
+  }
+}</code></pre>
+              </div>
+              <div class="col-6">
+                <pre>
+                  <code class="html">&lt;!-- Autre template --&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+  &lt;body&gt;
+    &lt;div th:insert=&quot;common :: menu<span data-toggle="popover" data-trigger="hover" data-placement="bottom" data-title="Inclusion du fragment paramétrés" data-content="On fournit une valeur pour les paramètres soit <em>en dur</em> soit à partir d'une variable." data-html="true">(${listElem}, 'Menu')</span>"&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+&lt;!-- Donnera --&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;h3&gt;Menu&lt;/h3&gt;
+    &lt;div class=&quot;nav-div&quot;&gt;
+      &lt;ul class=&quot;nav&quot;&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Accueil&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;A propos&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code>
+                </pre>
+              </div>
+            </div>
           </div>
-          <div class="container-fluid little-top-margin">
+          <div class="container-fluid negative-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Lorsqu'on insert un fragment paramétré, il suffit de spécifier les paramètres.
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    
+    <div id="fragments-autres" class="step slide">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid text-center">
+          <h1 class="display-3">Autres fonctionnalités</h1>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font" role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;D'autres fonctionnalités sont disponibles dans l'utilisation de template
+            </div>
+          </div>
+          <div class="container-fluid text-left small-font negative-top-margin">
+            <ul class="list-group">
+              <li class="list-group-item"><em>Flexible Layouts</em></li>
+              <li class="list-group-item">Suppression de fragments</li>
+              <li class="list-group-item">Héritage de fragments</li>
+            </ul>
+          </div>
+          <div class="container-fluid">
+            <div class="alert alert-primary small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Nous n'évoquerons pas ces fonctionnalités relativement avancées. La documentation est disponible <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#flexible-layouts-beyond-mere-fragment-insertion" target="_blank">ici</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </div>
 
