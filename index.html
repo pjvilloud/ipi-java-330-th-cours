@@ -87,7 +87,7 @@
           <h1 class="display-3">Introduction</h1>
           <div class="container-fluid">
             <div class="alert alert-primary small-font" role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Nous avons vu dans le cours précédent comment générer dynamiquement des pages HTML avec les servlets. Pour l'instant nous avons gérer la partie HTML dans le contrôleur. Afin de mieux coller aux principes du <em>MVC</em>, nous allons voir la technologie Thymeleaf.
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Nous avons vu dans le cours précédent comment générer dynamiquement des pages HTML avec les servlets. Pour l'instant nous avons géré la partie HTML dans le contrôleur. Afin de mieux coller aux principes du <em>MVC</em>, nous allons voir la technologie Thymeleaf.
             </div>
           </div>
           <div class="container small-font big-top-margin">
@@ -467,14 +467,14 @@ public class IndexController {
           <div class="container text-left small-font big-top-margin">
             <code class="no-margin">localhost:8080/say?name=World</code>
             <pre><code class="html">&lt;span th:text=&quot;'Hello ' + ${param.name}&quot;&gt;Hello World&lt;/span&gt;
-              &lt;span th:text=&quot;|Hello ${param.name}|&quot;&gt;Hello World&lt;/span&gt;
+&lt;span th:text=&quot;|Hello ${param.name}|&quot;&gt;Hello World&lt;/span&gt;
 &lt;span th:text=&quot;25 * 2&quot;&gt;50&lt;/span&gt;
 &lt;span th:text=&quot;false == true&quot;&gt;false&lt;/span&gt;
 &lt;span th:text=&quot;${param.message} == null&quot;&gt;true&lt;/span&gt;</code></pre>
           </div>
           <div class="container-fluid big-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'ensemble des expressions litérales sont décrit dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#literals" target="_blank">Thymeleaf</a>
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Toutes les expressions litérales sont décrites dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#literals" target="_blank">Thymeleaf</a>
             </div>
           </div>
         </div>
@@ -518,7 +518,7 @@ public class IndexController {
           </div>
           <div class="container-fluid big-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;L'ensemble des opérations sont décrites dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#arithmetic-operations" target="_blank">Thymeleaf</a>, les comparaisons et conditions sont décrites dans les sections suivantes.
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Toutes les opérations sont décrites dans la documentation de <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#arithmetic-operations" target="_blank">Thymeleaf</a>, les comparaisons et conditions sont décrites dans les sections suivantes.
             </div>
           </div>
         </div>
@@ -646,7 +646,7 @@ public class IndexController {
           </div>
           <div class="container-fluid">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;<code>th:each</code> fonctionne avec les <code>java.util.List</code> mais également n'importe quel objet implémentant <code>java.util.Iterable</code>, <code>java.util.Enumeration</code> ou <code>java.util.Map</code>, les tableaux primitifs.
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;<code>th:each</code> fonctionne avec les <code>java.util.List</code> mais également n'importe quel objet implémentant <code>java.util.Iterable</code>, <code>java.util.Enumeration</code> ou <code>java.util.Map</code> ainsi qu'avec les tableaux primitifs.
             </div>
           </div>
         </div>
@@ -666,7 +666,7 @@ public class IndexController {
             <ul class="list-group">
               <li class="list-group-item">Inclusion</li>
               <li class="list-group-item">Fragments paramétrés</li>
-              <li class="list-group-item">Autrse fonctionnalités</li>
+              <li class="list-group-item">Autres fonctionnalités</li>
             </ul>
           </div>
           <div class="container-fluid big-top-margin">
@@ -737,8 +737,8 @@ public class IndexController {
             </div>
           </div>
           <div class="container-fluid negative-top-margin">
-            <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il existe aussi <code>th:include</code> qui est déprécié depuis la version 3.0 de Thymleaf.
+            <div class="alert alert-warning small-font " role="alert">
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Il existe aussi <code>th:include</code> mais qui est déprécié depuis la version 3.0 de Thymleaf.
             </div>
           </div>
         </div>
@@ -806,7 +806,7 @@ public class IndexController {
           </div>
           <div class="container-fluid negative-top-margin">
             <div class="alert alert-primary small-font " role="alert">
-                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Lorsqu'on insert un fragment paramétré, il suffit de spécifier les paramètres.
+                <i class="fa fa-icon fa-info-circle"></i>&nbsp;Lorsqu'on insère un fragment paramétré, il suffit de spécifier les paramètres.
             </div>
           </div>
         </div>
@@ -822,14 +822,14 @@ public class IndexController {
                 <i class="fa fa-icon fa-info-circle"></i>&nbsp;D'autres fonctionnalités sont disponibles dans l'utilisation de template
             </div>
           </div>
-          <div class="container-fluid text-left small-font negative-top-margin">
+          <div class="container small-font big-top-margin">
             <ul class="list-group">
               <li class="list-group-item"><em>Flexible Layouts</em></li>
               <li class="list-group-item">Suppression de fragments</li>
               <li class="list-group-item">Héritage de fragments</li>
             </ul>
           </div>
-          <div class="container-fluid">
+          <div class="container-fluid big-top-margin">
             <div class="alert alert-primary small-font " role="alert">
                 <i class="fa fa-icon fa-info-circle"></i>&nbsp;Nous n'évoquerons pas ces fonctionnalités relativement avancées. La documentation est disponible <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#flexible-layouts-beyond-mere-fragment-insertion" target="_blank">ici</a>
             </div>
