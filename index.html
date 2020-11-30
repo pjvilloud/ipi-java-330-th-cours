@@ -617,7 +617,7 @@ public class IndexController {
   @GetMapping(value = "/")
   public String index(final ModelMap m) {
     String[] typesProduits = new String[{"DVD", "Livre", "Autre"}];
-    m.put("typesProduit", "book");
+    m.put("typesProduit", typesProduits);
     m.put("items", Arrays.asList("Item 1", "Item 2", "Item 3"));
     return "index";
   }
