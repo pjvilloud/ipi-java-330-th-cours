@@ -432,7 +432,7 @@ public class IndexController {
 
 &lt;span th:text=&quot;${#temporals.format(now, 'dd/MM/YYYY')}&quot;&gt;<span id="nowFormatted"></span>&lt;/span&gt;
 
-&lt;span th:text=&quot;${#strings.defaultString(notDefined,"Non renseigné")}&quot;&gt;Non renseigné&lt;/span&gt;
+&lt;span th:text=&quot;${#strings.defaultString(notDefined,'Non renseigné')}&quot;&gt;Non renseigné&lt;/span&gt;
 &lt;span th:text=&quot;${#strings.containsIgnoreCase(param.name,'or')}&quot;&gt;true&lt;/span&gt;
 &lt;span th:text=&quot;${#strings.toUpperCase(param.name)}&quot;&gt;WORLD&lt;/span&gt;
 
