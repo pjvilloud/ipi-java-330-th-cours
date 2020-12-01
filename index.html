@@ -427,8 +427,8 @@ public class IndexController {
               </div> 
               <div class="col-8">
                 <code class="no-margin">localhost:8080/say?name=World</code>
-                <pre><code class="html">&lt;span th:text=&quot;${messages.msg('message.hello')}&quot;&gt;Hello&lt;/span&gt;
-&lt;span th:text=&quot;${messages.msg('message.hello2', param.name)}&quot;&gt;Hello&lt;/span&gt;
+                <pre><code class="html">&lt;span th:text=&quot;${#messages.msg('message.hello')}&quot;&gt;Hello&lt;/span&gt;
+&lt;span th:text=&quot;${#messages.msg('message.hello2', param.name)}&quot;&gt;Hello&lt;/span&gt;
 
 &lt;span th:text=&quot;${#temporals.format(now, 'dd/MM/YYYY')}&quot;&gt;<span id="nowFormatted"></span>&lt;/span&gt;
 
