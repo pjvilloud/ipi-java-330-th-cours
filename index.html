@@ -625,7 +625,7 @@ public class IndexController {
               </div> 
               <div class="col-6">
                 <pre><code class="html">&lt;ul th:each=&quot;item : ${items}&quot;&gt;
-  &lt;li th:text=&quot;item&quot;&gt;&lt;/li&gt;
+  &lt;li th:text=&quot;${item}&quot;&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div th:each=&quot;typeP : ${typesProduit}&quot;&gt;
   &lt;a th:href=&quot;@{/typesProduits(type=${typeP})&quot;&gt;${typeP}&lt;/a&gt;
