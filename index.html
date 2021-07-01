@@ -783,7 +783,7 @@ public class IndexController {
                   <code class="html">&lt;!-- Autre template --&gt;
 &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
   &lt;body&gt;
-    &lt;div th:insert=&quot;common :: menu<span data-toggle="popover" data-trigger="hover" data-placement="bottom" data-title="Inclusion du fragment paramétrés" data-content="On fournit une valeur pour les paramètres soit <em>en dur</em> soit à partir d'une variable." data-html="true">(${listElem}, 'Menu')</span>"&gt;&lt;/div&gt;
+    &lt;div th:insert=&quot;common :: menu<span data-toggle="popover" data-trigger="hover" data-placement="bottom" data-title="Inclusion du fragment paramétrés" data-content="On fournit une valeur pour les paramètres soit <em>en dur</em> soit à partir d'une variable." data-html="true">('Menu', ${listElem})</span>"&gt;&lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;
 &lt;!-- Donnera --&gt;
